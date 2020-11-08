@@ -53,6 +53,16 @@ const Main = () => {
         },
     };
 
+    const handleEditMovie = () => {
+        const fileInput = document.getElementById("mp4Input");
+        fileInput.click();
+    }
+
+    const handleEditPicture = () => {
+        const fileInput = document.getElementById("imageInput");
+        fileInput.click();
+    };
+
     return (
         <>
             <Grid container className={classes.grid}>
@@ -80,6 +90,55 @@ const Main = () => {
                     </Grid>
                 </Grid>
             </Grid>
+
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={() => setModalIsOpen(false)}  // モーダルの枠外をクリックしたときも閉じるような設定
+                style={customStyles}
+            >
+                <Typography>Movie title</Typography>
+                <br />
+                <TextField
+                    type="text"
+                    onChange={(event) => setTitle(event.target.value)}
+                />
+                <br />
+                <br />
+                <Container className={classes.container}>
+                    <input
+                        type="file"
+                        id="mp4Input"
+                        hidden="hidden"
+                        onChange={(event) => setVideo(event.target.files[0])}
+                    />
+
+                    <IconButton onClick={handleEditMovie}>
+                        <FaVideo className="photo" />
+                    </IconButton>
+
+                    <input
+                        type="file"
+                        id="imageInput"
+                        hidden="hidden"
+                        onChange={(event) => setThum(event.target.files[0])}
+                    />
+
+                    <IconButton onClick={handleEditPicture}>
+                        <BsImages className="photo" />
+                    </IconButton>
+                    <br />
+
+                    {title && video && thum && (
+                        <button className="btn-modal" onClick={() => newVideo()}>
+                            <RiUploadCloud2Line />
+                        </button>
+                    )}
+                    <button className="btn-modal" onClick={() => setModalIsOpen(false)}>
+                        <IoMdClose />
+                    </button>
+                </Container>
+
+            </Modal>
         </>
     )
 }
